@@ -1,0 +1,59 @@
+{
+  "dependencies": [
+    {
+      "name": "actuate",
+      "type": "haxelib",
+      "version": null
+    },
+    {
+      "name": "flixel",
+      "type": "haxelib",
+      "version": "4.11.0"
+    },
+    {
+      "name": "flixel-addons",
+      "type": "haxelib",
+      "version": "2.11.0"
+    },
+    {
+      "name": "flixel-demos",
+      "type": "haxelib",
+      "version": "2.9.0"
+    },
+    {
+      "name": "flixel-templates",
+      "type": "haxelib",
+      "version": "2.6.6"
+    },
+    {
+      "name": "flixel-tools",
+      "type": "haxelib",
+      "version": "1.5.1"
+    },
+    {
+      "name": "flixel-ui",
+      "type": "haxelib",
+      "version": "2.4.0"
+    },
+    {
+      "name": "flxanimate",
+      "type": "haxelib",
+      "version": "3.0.4"
+    },
+    {
+      "name": "hscript",
+      "type": "haxelib",
+      "version": "2.5.0"
+    },
+    {
+      "name": "lime",
+      "type": "haxelib",
+      "version": "8.0.1"
+    },
+    {
+      "name": "openfl",
+      "type": "haxelib",
+      "version": "9.2.1"
+    }
+  ]
+}
