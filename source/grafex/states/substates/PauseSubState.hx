@@ -37,7 +37,7 @@ class PauseSubState extends MusicBeatSubstate
     public static var playingPause:Bool = false;
 
 	var menuItems:Array<String> = [];
-	var menuItemsOG:Array<String> = ['Resume', 'Restart Song', 'Options', 'Gameplay Changers', 'Change Difficulty', 'Exit to menu'];
+	var menuItemsOG:Array<String> = ['Resume', 'Restart Song', 'Options', 'Exit to menu'];
 	var difficultyChoices = [];
 	var curSelected:Int = 0;
 
@@ -115,16 +115,21 @@ class PauseSubState extends MusicBeatSubstate
 		bg.scrollFactor.set();
 		add(bg);
 
+		final grid = new flixel.addons.display.FlxBackdrop(flixel.addons.display.FlxGridOverlay.createGrid(1, 1, 2, 2, true, 0x33FFFFFF, 0x0));
+		grid.scrollFactor.set(0, 0);
+		grid.velocity.set(40, 40);
+		grid.scale.scale(80);
+		add(grid);
 
         if (!ClientPrefs.lowQuality)
 		{
-			pausebg = new FlxSprite().loadGraphic(Paths.image('pausemenubg'));
+			pausebg = new FlxSprite().loadGraphic(Paths.image(''));
 			pausebg.color = 0xFF1E1E1E;
 			pausebg.scrollFactor.set();
 			pausebg.updateHitbox();
 			pausebg.screenCenter();
 			pausebg.antialiasing = ClientPrefs.globalAntialiasing;
-			add(pausebg);
+			
 			pausebg.x += 200;
 			pausebg.y -= 200;
 			pausebg.alpha = 0;
@@ -196,7 +201,6 @@ class PauseSubState extends MusicBeatSubstate
 		if (pauseMusic.volume < 0.5)
 			pauseMusic.volume += 0.01 * elapsed;
 
-
 		super.update(elapsed);
         updateSkipTextStuff();
 
@@ -206,20 +210,20 @@ class PauseSubState extends MusicBeatSubstate
 		var escaped = controls.BACK;
         if(FlxG.keys.justPressed.F11)
         {
-        FlxG.fullscreen = !FlxG.fullscreen;
+        	FlxG.fullscreen = !FlxG.fullscreen;
         }
 
 		if (escaped)
-			{
-				curSelected = 0;
-				accepted = true;
-			}
+		{
+			curSelected = 0;
+			accepted = true;
+		}
 
-		if (upP  && !startedCountdown)
+		if (upP && !startedCountdown)
 		{
 			changeSelection(-1);
 		}
-		if (downP  && !startedCountdown)
+		if (downP && !startedCountdown)
 		{
 			changeSelection(1);
 		}
@@ -268,7 +272,6 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.chartingMode = false;
 					return;
 				}
-
 				menuItems = menuItemsOG;
 				regenMenu();
 			}
@@ -281,15 +284,15 @@ class PauseSubState extends MusicBeatSubstate
 			switch (daSelected)
 			{
 				case "Resume":
-						if (ClientPrefs.countDownPause) 
-						{
-							startedCountdown = true;
-							startCountdown();
-						}
-						else 
-						{
-							close();
-						}
+					if (ClientPrefs.countDownPause) 
+					{
+						startedCountdown = true;
+						startCountdown();
+					}
+					else 
+					{
+						close();
+					}
 
 				case "Options":
 					goToOptions = true;
@@ -383,10 +386,10 @@ class PauseSubState extends MusicBeatSubstate
 	override function destroy()
 	{
 		if (!goToOptions)
-			{
-	         pauseMusic.destroy();
-                 playingPause = false;
-			}
+		{
+	        pauseMusic.destroy();
+            playingPause = false;
+		}
 		super.destroy();
 	}
 
@@ -415,7 +418,7 @@ class PauseSubState extends MusicBeatSubstate
 			{
 				item.alpha = 1;
 				// item.setGraphicSize(Std.int(item.width));
-                                if(item == skipTimeTracker)
+                if(item == skipTimeTracker)
 				{
 					curTime = Math.max(0, Conductor.songPosition);
 					updateSkipTimeText();
@@ -436,7 +439,7 @@ class PauseSubState extends MusicBeatSubstate
 			item.isMenuItem = true;
 			item.targetY = i;
 			grpMenuShit.add(item);
-                        if(menuItems[i] == 'Skip Time')
+            if(menuItems[i] == 'Skip Time')
 			{
 				skipTimeText = new FlxText(0, 0, 0, '', 64);
 				skipTimeText.setFormat(Paths.font("vcr.ttf"), 64, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -452,7 +455,7 @@ class PauseSubState extends MusicBeatSubstate
 		curSelected = 0;
 		changeSelection();
 	}
-        function updateSkipTextStuff()
+    function updateSkipTextStuff()
 	{
 		if(skipTimeText == null || skipTimeTracker == null) return;
 
@@ -467,40 +470,37 @@ class PauseSubState extends MusicBeatSubstate
 	}
 
 	function startCountdown():Void
-		{
- 
+	{
         var introSuffix:String = '';
-
         if(PlayState.isPixelStage)
-        introSuffix = '-pixel'; 
-
+        	introSuffix = '-pixel'; 
 
 			var swagCounter = 0;
 			// I HAD TO DO IT HERE THE WHOLE TIME IMA KMS
-					bg.visible = false;
-					grpMenuShit.visible = false;
-					levelInfo.visible = false;
-					levelDifficulty.visible = false;
-					blueballedTxt.visible = false;
-					chartingText.visible = false;
-					practiceText.visible = false;
-					pausebg.visible = false;
+			bg.visible = false;
+			grpMenuShit.visible = false;
+			levelInfo.visible = false;
+			levelDifficulty.visible = false;
+			blueballedTxt.visible = false;
+			chartingText.visible = false;
+			practiceText.visible = false;
+			pausebg.visible = false;
 
-					FlxG.sound.play(Paths.sound('intro3' + introSuffix), 0.6);
+			FlxG.sound.play(Paths.sound('intro3' + introSuffix), 0.6);
 
-	var StartTimer = new FlxTimer().start(Conductor.crochet / 1000, function(tmr:FlxTimer)
-				{
+		var StartTimer = new FlxTimer().start(Conductor.crochet / 1000, function(tmr:FlxTimer)
+		{
 
-	var introAssets:Map<String, Array<String>> = new Map<String, Array<String>>();
-	introAssets.set('default', ['ready', 'set', 'go']);
-	introAssets.set('pixel', ['pixelUI/ready-pixel', 'pixelUI/set-pixel', 'pixelUI/date-pixel']);
+			var introAssets:Map<String, Array<String>> = new Map<String, Array<String>>();
+			introAssets.set('default', ['ready', 'set', 'go']);
+			introAssets.set('pixel', ['pixelUI/ready-pixel', 'pixelUI/set-pixel', 'pixelUI/date-pixel']);
 
-	var introAlts:Array<String> = introAssets.get('default');
-	var antialias:Bool = ClientPrefs.globalAntialiasing;
-	if(PlayState.isPixelStage) {
-		introAlts = introAssets.get('pixel');
-		antialias = false;
-	}
+			var introAlts:Array<String> = introAssets.get('default');
+			var antialias:Bool = ClientPrefs.globalAntialiasing;
+			if(PlayState.isPixelStage) {
+				introAlts = introAssets.get('pixel');
+				antialias = false;
+		}
 
 					
 	switch (swagCounter)
@@ -514,8 +514,8 @@ class PauseSubState extends MusicBeatSubstate
 				countdownReady.setGraphicSize(Std.int(countdownReady.width * PlayState.daPixelZoom));
 
 			countdownReady.screenCenter();
-									//countdownReady.scale.x = 0.7;
-									//countdownReady.scale.y = 0.7;
+			//countdownReady.scale.x = 0.7;
+			//countdownReady.scale.y = 0.7;
 			countdownReady.antialiasing = antialias;
 			add(countdownReady);
 			FlxTween.tween(countdownReady, {alpha: 0}, Conductor.crochet / 1000, {
@@ -535,8 +535,8 @@ class PauseSubState extends MusicBeatSubstate
 				countdownSet.setGraphicSize(Std.int(countdownSet.width * PlayState.daPixelZoom));
 
 			countdownSet.screenCenter();
-									//countdownSet.scale.x = 0.7;
-									//countdownSet.scale.y = 0.7;
+			//countdownSet.scale.x = 0.7;
+			//countdownSet.scale.y = 0.7;
 			countdownSet.antialiasing = antialias;
 			add(countdownSet);
 			FlxTween.tween(countdownSet, { alpha: 0}, Conductor.crochet / 1000, {
@@ -556,10 +556,9 @@ class PauseSubState extends MusicBeatSubstate
 				countdownGo.setGraphicSize(Std.int(countdownGo.width * PlayState.daPixelZoom));
 
 			countdownGo.updateHitbox();
-
 			countdownGo.screenCenter();
-									//countdownGo.scale.x = 0.7;
-									//countdownGo.scale.y = 0.7;
+			//countdownGo.scale.x = 0.7;
+			//countdownGo.scale.y = 0.7;
 			countdownGo.antialiasing = antialias;
 			add(countdownGo);
 			FlxTween.tween(countdownGo, {alpha: 0}, Conductor.crochet / 1000, {
@@ -571,10 +570,9 @@ class PauseSubState extends MusicBeatSubstate
 				}
 			});
 			FlxG.sound.play(Paths.sound('introGo' + introSuffix), 0.6);
-                        close();
+                    close();
 				}
 					swagCounter += 1;
-				}, 4);
-
-		}
+			}, 4);
+	}
 }

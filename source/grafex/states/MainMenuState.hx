@@ -55,7 +55,7 @@ class MainMenuState extends MusicBeatState
     public static var firstStart:Bool = true;
 
 	var boxMain:FlxSprite;
-	var optionShit:Array<String> = [ 'freeplay', 'credits', 'options'];
+	var optionShit:Array<String> = ['freeplay', 'credits', 'options'];
 
 	var camFollow:FlxObject;
 	var camFollowPos:FlxObject;
@@ -123,9 +123,12 @@ class MainMenuState extends MusicBeatState
 		movingBG.color = 0xfffde871;
         movingBG.velocity.x = -90;
 		add(movingBG);
-
 		
-		
+		final grid = new flixel.addons.display.FlxBackdrop(flixel.addons.display.FlxGridOverlay.createGrid(1, 1, 2, 2, true, 0x33FFFFFF, 0x0));
+		grid.scrollFactor.set(0, yScroll);
+		grid.velocity.set(40, 40);
+		grid.scale.scale(80);
+		add(grid);
 		
 		playbut.loadGraphic(Paths.image('mainmenu/play'));
 		playbut.scale.set(0.3,0.3);
@@ -155,7 +158,6 @@ class MainMenuState extends MusicBeatState
 		screambut.y = 650;
 		add(screambut);
 
-		
 		screamer.loadGraphic(Paths.image('mainmenu/scream'));
 		screamer.visible = false;
 		
@@ -168,10 +170,8 @@ class MainMenuState extends MusicBeatState
 
 		var scale:Float = 1;
 
-		
 		FlxG.camera.follow(camFollowPos, null, 1);
-		
-		
+
 		var versionShit:FlxText = new FlxText(12, FlxG.height - 24, 0, "Friday Night Funkin' v0.2.8", 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -208,44 +208,30 @@ class MainMenuState extends MusicBeatState
 		if (FlxG.mouse.overlaps(playbut) && FlxG.mouse.justPressed ){
 			FlxG.sound.play(Paths.sound('confirmMenu'));
 			MusicBeatState.switchState(new FreeplayState());
-			
 		}
 
 		if (FlxG.mouse.overlaps(credbut) && FlxG.mouse.justPressed ){
 			FlxG.sound.play(Paths.sound('confirmMenu'));
 			MusicBeatState.switchState(new CreditsState());
-			
 		}
 
 		if (FlxG.mouse.overlaps(optbut) && FlxG.mouse.justPressed ){
 			FlxG.sound.play(Paths.sound('confirmMenu'));
 			FlxTransitionableState.skipNextTransIn = false;
             FlxTransitionableState.skipNextTransOut = false;
-										
 			MusicBeatState.switchState(new OptionsDirect());
 		}
 
 		if (FlxG.mouse.overlaps(screambut) && FlxG.mouse.justPressed ){
 			FlxG.sound.play(Paths.sound('scream'));
-
-			
-			
 		}
 
-
-
 		var lerpVal:Float = Utils.boundTo(elapsed * 9, 0, 1);
-
         
-
 		camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
 
 		if (!selectedSomethin)
 		{
-			
-			
-			
-
             if (controls.BACK)
 			{
 				selectedSomethin = true;
@@ -253,7 +239,6 @@ class MainMenuState extends MusicBeatState
 				MusicBeatState.switchState(new TitleState());
                 TitleState.fromMainMenu = true;
 			}
-
 			
 			#if desktop
 			else if (FlxG.keys.anyJustPressed(debugKeys))
@@ -269,26 +254,14 @@ class MainMenuState extends MusicBeatState
 		super.update(elapsed);
 
         var elapsedTime:Float = elapsed*6;
-        
-
 	}
-
-	
-
-	
-
 
     function changeItem(huh:Int = 0)
 	{
 		if (finishedFunnyMove)
 		{
 			curSelected += huh;
-
-			
 		}
-
-		
-	
 	}
 	function playOver(){
 		FlxTween.tween(playbut, {'scale.x':0.32,'scale.y':0.32}, 0.3, {ease: FlxEase.quadOut});
@@ -296,7 +269,6 @@ class MainMenuState extends MusicBeatState
 	}
 	function notplayOver(){
 		FlxTween.tween(playbut, {'scale.x':0.30,'scale.y':0.30}, 0.3, {ease: FlxEase.quadOut});
-		
 	}
 
 	function credOver(){
@@ -305,7 +277,6 @@ class MainMenuState extends MusicBeatState
 	}
 	function notcredOver(){
 		FlxTween.tween(credbut, {'scale.x':0.30,'scale.y':0.30}, 0.3, {ease: FlxEase.quadOut});
-		
 	}
 
 	function optOver(){
@@ -314,7 +285,6 @@ class MainMenuState extends MusicBeatState
 	}
 	function notoptOver(){
 		FlxTween.tween(optbut, {'scale.x':0.30,'scale.y':0.30}, 0.3, {ease: FlxEase.quadOut});
-		
 	}
 
 	function screamOver(){
@@ -323,6 +293,5 @@ class MainMenuState extends MusicBeatState
 	}
 	function notscreamOver(){
 		FlxTween.tween(screambut, {'scale.x':0.10,'scale.y':0.10}, 0.3, {ease: FlxEase.quadOut});
-		
 	}
 }
